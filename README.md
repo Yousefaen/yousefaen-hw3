@@ -3,16 +3,13 @@ Name: Youssef Abouelnour
 Github user: Yousefaen
 PRD Link: https://docs.google.com/document/d/1wucrZBUPdcKpbYVTcNRrSFNtEB69UyEuAIP5aRfrlz0/edit?usp=sharing
 Netlify link: https://yousefaen-hw3.netlify.app/
+Github repo: https://github.com/Yousefaen/yousefaen-hw3
+
 # yousefaen-hw3
 =======
 # Hello World on Netlify
 =======
 # Planneri — MVP (Mock-Only)
-Name: Youssef Abouelnour
-Github user: Yousefaen
-Netlify site: https://yousefaen-hw3.netlify.app/
-Github repo: https://github.com/Yousefaen/yousefaen-hw3
->>>>>>> ec05663 (Readme edits)
 
 
 Planneri is an AI-assisted content helper for Dubai real estate teams. This MVP generates dummy, platform-tailored captions (and a voiceover script for Instagram Reels) to speed up social posting. No real AI calls are made in this version.
@@ -83,4 +80,5 @@ If you only need the static page (no functions), you can drag-and-drop this fold
 - Real provider integration behind a serverless function (with feature flag)
 - Arabic language support and additional brand style packs
 - Direct platform publishing and richer compliance rules
+
 >>>>>>> ec05663 (Readme edits)
