@@ -18,8 +18,8 @@ exports.handler = async (event) => {
 
   const { goal = 'lead_gen', audience = 'first_time', type = 'ig_post', style = 'direct', bullets = [] } = input;
 
-  // Simple deterministic templates
-  const styleTone = {
+  // Tone lexicon
+  const tone = {
     direct: 'Straight to the point',
     persuasive: 'Make your move today',
     personal: 'From our team to you',
@@ -28,51 +28,123 @@ exports.handler = async (event) => {
   }[style] || 'Direct and clear';
 
   const goalLine = {
-    lead_gen: 'Book a viewing now',
+    lead_gen: 'Book a viewing today',
     brand_awareness: 'Discover the DreamHomes difference',
     community: 'Join our community of happy homeowners',
-    traffic: 'Explore more details on our website'
+    traffic: 'Tap the link in bio for full details'
   }[goal] || 'Learn more today';
 
   const audienceLine = {
-    first_time: 'Perfect for first-time buyers in Dubai',
+    first_time: 'Perfect for first‑time buyers in Dubai',
     intl_investor: 'Tailored for international investors',
-    luxury: 'For luxury aficionados seeking excellence',
-    upgrader: 'Ideal for upgraders looking for more space',
+    luxury: 'Crafted for luxury aficionados',
+    upgrader: 'Ideal for upgraders seeking more space',
     family: 'A smart choice for growing families'
   }[audience] || 'For discerning buyers';
 
-  const typePrefix = type === 'linkedin_post' ? 'LinkedIn' : type === 'ig_reel' ? 'Reel' : 'Instagram';
+  const defaultBullets = ['Prime location', 'Modern finishes', 'Great amenities'];
+  const pts = (bullets && bullets.length ? bullets : defaultBullets).slice(0, 3);
+  const bulletLines = pts.map(p => `• ${p}`).join('\n');
 
-  const points = bullets.length ? `Highlights: ${bullets.slice(0, 3).join(' • ')}.` : 'Highlights: prime location • modern finishes • great amenities.';
+  // CTA variants
+  const ctaText = goal === 'lead_gen'
+    ? '📩 DM us to schedule a viewing or tap the link in bio.'
+    : goal === 'traffic'
+      ? '🔗 Full details at the link in bio.'
+      : '📲 Message us for info and availability.';
 
-  const caption = `${styleTone}. ${audienceLine}. ${points} ${goalLine}.`;
+  // Hashtags helpers
+  const baseTags = ['DubaiRealEstate','DreamHomes','PropertyDubai','NewListing','UAEHomes','DubaiLife','HouseHunting','OpenHouse','AgencyLife'];
+  const audienceTagsMap = {
+    first_time: ['FirstTimeBuyer','StarterHome'],
+    intl_investor: ['DubaiInvestment','GlobalInvestor'],
+    luxury: ['LuxuryRealEstate','DubaiLuxury'],
+    upgrader: ['UpgradeYourHome','MoreSpace'],
+    family: ['FamilyHome','NearSchools']
+  };
+  const audienceTags = audienceTagsMap[audience] || [];
 
-  const hashtags = [
-    '#DubaiRealEstate',
-    '#DreamHomes',
-    '#PropertyDubai',
-    '#NewListing',
-    '#UAEHomes',
-    '#HouseHunting',
-    '#Investment',
-    '#AgencyLife',
-    '#OpenHouse',
-    `#${typePrefix}`
-  ];
+  const response = { mock: true, flags: [] };
 
-  const cta = 'Send us a DM or click the link in bio to schedule a viewing.';
+  if (type === 'linkedin_post') {
+    // LinkedIn: fewer hashtags, professional tone, explicit value prop
+    const headline = (() => {
+      if (audience === 'intl_investor') return 'Dubai property insight for global investors';
+      if (audience === 'luxury') return 'Premium residence in Dubai — refined living';
+      if (audience === 'first_time') return 'Entry into Dubai homeownership';
+      if (audience === 'family') return 'Family‑friendly living in Dubai';
+      return 'Upgrading your space in Dubai';
+    })();
 
-  // Simple compliance flags
-  const flags = [];
-  const textToScan = `${caption} ${hashtags.join(' ')} ${cta}`;
+    const paragraph = `${tone}. ${audienceLine}.\n\n${pts.join(' • ')}.\n\n${goalLine}.`;
+    const caption = `${headline}\n\n${paragraph}`;
+    const hashtags = ['#RealEstate', '#Dubai', '#UAE', '#Property'].slice(0, 4);
+    const cta = 'Learn more via the link or message us to discuss.';
+
+    Object.assign(response, { caption, hashtags, cta });
+  } else if (type === 'ig_reel') {
+    // Instagram Reel: caption + voiceover script & shot list
+    const hook = (() => {
+      if (audience === 'luxury') return 'New in Dubai luxury ✨';
+      if (audience === 'intl_investor') return 'Dubai opportunity you can’t miss 🌍';
+      if (audience === 'first_time') return 'Your first home starts here 🏡';
+      if (audience === 'family') return 'Room to grow for the whole family 👨‍👩‍👧‍👦';
+      return 'Upgrade your lifestyle in Dubai 🌆';
+    })();
+
+    const body = `${tone}. ${audienceLine}.\n\n${bulletLines}`;
+    const caption = `${hook}\n\n${body}\n\n${ctaText}`;
+
+    const locationTags = ['Dubai', 'UAE'];
+    const hashtags = [...locationTags, ...audienceTags, 'Reel', 'ShortVideo', ...baseTags]
+      .slice(0, 20)
+      .map(t => `#${t}`);
+
+    // Deterministic voiceover script that adapts to selections
+    const voiceTone = style === 'warm' ? 'friendly' : style === 'authoritative' ? 'expert' : style;
+    const musicTone = audience === 'luxury' ? 'ambient lounge' : audience === 'intl_investor' ? 'minimal corporate' : 'uplifting pop';
+
+    const script = {
+      voiceTone,
+      musicTone,
+      shots: [
+        { t: '0:00-0:03', v: `Welcome to Dubai — ${pts[0].toLowerCase()}.` },
+        { t: '0:03-0:06', v: `${pts[1]} that stands out.` },
+        { t: '0:06-0:09', v: `${pts[2]} designed for ${audience.replace('_',' ')}.` },
+        { t: '0:09-0:12', v: goal === 'lead_gen' ? 'Book a viewing today.' : 'Learn more at the link.' }
+      ]
+    };
+
+    Object.assign(response, { caption, hashtags, cta: ctaText, script });
+  } else {
+    // Instagram Post (default): IG style with more hashtags
+    const hook = (() => {
+      if (audience === 'luxury') return 'New in Dubai luxury ✨';
+      if (audience === 'intl_investor') return 'Dubai opportunity you can’t miss 🌍';
+      if (audience === 'first_time') return 'Your first home starts here 🏡';
+      if (audience === 'family') return 'Room to grow for the whole family 👨‍👩‍👧‍👦';
+      return 'Upgrade your lifestyle in Dubai 🌆';
+    })();
+    const body = `${tone}. ${audienceLine}.\n\n${bulletLines}`;
+    const caption = `${hook}\n\n${body}\n\n${ctaText}`;
+
+    const locationTags = ['Dubai', 'UAE'];
+    const hashtags = [...locationTags, ...audienceTags, 'Instagram', ...baseTags]
+      .slice(0, 20)
+      .map(t => `#${t}`);
+
+    Object.assign(response, { caption, hashtags, cta: ctaText });
+  }
+
+  // Compliance flags
+  const textToScan = `${response.caption} ${(response.hashtags||[]).join(' ')}`;
   for (const re of BAD_PHRASES) {
-    if (re.test(textToScan)) flags.push('Potential prohibited claim detected');
+    if (re.test(textToScan)) response.flags.push('Potential prohibited claim detected');
   }
 
   return {
     statusCode: 200,
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ caption, hashtags, cta, flags, mock: true })
+    body: JSON.stringify(response)
   };
 };
