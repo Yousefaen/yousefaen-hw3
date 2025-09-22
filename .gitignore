@@ -1,0 +1,26 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Node/JS
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Builds
+/dist/
+/build/
+/.cache/
+coverage/
+
+# Env/Secrets
+.env
+.env.*
+
+# Netlify (local dev server artifacts)
+.netlify/
+
+# Editor
+.vscode/
+.idea/

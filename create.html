@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Planneri • Create</title>
+    <link rel="stylesheet" href="/assets/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a href="/" class="brand">Planneri</a>
+      <nav>
+        <a href="/create.html" aria-current="page">Create</a>
+      </nav>
+    </header>
+
+    <main class="container">
+      <h1>Create Content</h1>
+      <p class="muted">All data is dummy and AI is simulated per MVP policy.</p>
+
+      <ol class="steps">
+        <li id="step-1" class="step active">
+          <h2>Step 1 · Goal</h2>
+          <div class="field-group">
+            <label><input type="radio" name="goal" value="lead_gen" checked> Lead Generation</label>
+            <label><input type="radio" name="goal" value="brand_awareness"> Brand Awareness</label>
+            <label><input type="radio" name="goal" value="community"> Community Building</label>
+            <label><input type="radio" name="goal" value="traffic"> Website Traffic</label>
+          </div>
+          <div id="err1" class="error" role="alert" aria-live="polite"></div>
+          <div class="actions">
+            <button data-next>Next</button>
+          </div>
+        </li>
+
+        <li id="step-2" class="step">
+          <h2>Step 2 · Audience</h2>
+          <div class="field-group">
+            <select id="audience">
+              <option value="first_time">First-time buyers</option>
+              <option value="intl_investor">International investors</option>
+              <option value="luxury">Luxury aficionados</option>
+              <option value="upgrader">Upgraders</option>
+              <option value="family">Family home buyers</option>
+            </select>
+          </div>
+          <div id="err2" class="error" role="alert" aria-live="polite"></div>
+          <div class="actions">
+            <button data-back>Back</button>
+            <button data-next>Next</button>
+          </div>
+        </li>
+
+        <li id="step-3" class="step">
+          <h2>Step 3 · Content Type</h2>
+          <div class="field-group">
+            <label><input type="radio" name="type" value="ig_post" checked> Instagram Post (square)</label>
+            <label><input type="radio" name="type" value="ig_reel"> Instagram Reel (concept)</label>
+            <label><input type="radio" name="type" value="linkedin_post"> LinkedIn Post (1200×627)</label>
+          </div>
+          <div id="err3" class="error" role="alert" aria-live="polite"></div>
+          <div class="actions">
+            <button data-back>Back</button>
+            <button data-next>Next</button>
+          </div>
+        </li>
+
+        <li id="step-4" class="step">
+          <h2>Step 4 · Style</h2>
+          <div class="field-group">
+            <select id="style">
+              <option value="direct">Direct</option>
+              <option value="persuasive">Persuasive</option>
+              <option value="personal">Personal</option>
+              <option value="warm">Warm</option>
+              <option value="authoritative">Authoritative/Expert</option>
+            </select>
+          </div>
+          <div id="err4" class="error" role="alert" aria-live="polite"></div>
+          <div class="actions">
+            <button data-back>Back</button>
+            <button data-next>Next</button>
+          </div>
+        </li>
+
+        <li id="step-5" class="step">
+          <h2>Step 5 · Assets</h2>
+          <div class="field-group">
+            <input id="assets" type="file" accept="image/*" multiple />
+            <small class="muted">Upload up to 5 images. Images are kept in-browser only.</small>
+            <div id="thumbs" class="thumbs"></div>
+          </div>
+          <div id="err5" class="error" role="alert" aria-live="polite"></div>
+          <div class="actions">
+            <button data-back>Back</button>
+            <button data-next>Next</button>
+          </div>
+        </li>
+
+        <li id="step-6" class="step">
+          <h2>Step 6 · Preview</h2>
+          <div class="grid preview-grid">
+            <section>
+              <h3>Generated Copy</h3>
+              <button id="generate" class="primary">Generate (Mock)</button>
+              <pre id="copyOut" class="code">Press Generate to get dummy copy...</pre>
+              <div id="flags" class="flags"></div>
+              <fieldset class="checklist">
+                <legend>Compliance Checklist (acknowledge before export)</legend>
+                <label><input type="checkbox" id="ackNoPromises"> No guaranteed ROI / risk-free language</label>
+                <label><input type="checkbox" id="ackLicensed"> Content aligns with licensing/compliance guidance</label>
+                <label><input type="checkbox" id="ackAccurate"> Images/copy reflect the actual property accurately</label>
+              </fieldset>
+              <div class="row gap">
+                <button id="copyCaption">Copy Caption</button>
+                <button id="exportJson">Export JSON</button>
+              </div>
+              <div id="err6" class="error" role="alert" aria-live="polite"></div>
+            </section>
+            <section>
+              <h3>Visual Preview</h3>
+              <canvas id="canvas" width="512" height="512" class="preview-canvas"></canvas>
+              <div class="row gap">
+                <label class="muted">Brand color <input id="brandColor" type="color" value="#0ea5e9" /></label>
+                <label class="muted">Logo (PNG)
+                  <input id="logoUpload" type="file" accept="image/png" />
+                </label>
+                <button id="downloadPng">Download PNG</button>
+              </div>
+              <small class="muted">LinkedIn previews render at 1200×627. Instagram renders square.</small>
+            </section>
+          </div>
+          <div class="actions">
+            <button data-back>Back</button>
+            <button id="resetWizard" class="secondary">Start Over</button>
+          </div>
+        </li>
+      </ol>
+    </main>
+
+    <script src="/assets/app.js"></script>
+  </body>
+</html>
