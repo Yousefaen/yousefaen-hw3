@@ -1,4 +1,7 @@
-<<<<<<< HEAD
+Name: Youssef Abouelnour
+Github user: Yousefaen
+PRD Link: https://docs.google.com/document/d/1wucrZBUPdcKpbYVTcNRrSFNtEB69UyEuAIP5aRfrlz0/edit?usp=sharing
+Netlify link: https://yousefaen-hw3.netlify.app/
 # yousefaen-hw3
 =======
 # Hello World on Netlify
@@ -52,4 +55,5 @@ If you only need the static page (no functions), you can drag-and-drop this fold
 ## Notes
 - If you add dependencies to functions, create a `package.json` at the repo root or inside `netlify/functions/` and run `npm install <pkg>` there. Netlify will install them automatically during deploy.
 - You can also call the function with `/api/hello` thanks to the redirect in `netlify.toml`.
+
 >>>>>>> 1ceb0e0 (First commit using PRD as a reference)
