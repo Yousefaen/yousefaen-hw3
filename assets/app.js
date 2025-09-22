@@ -11,7 +11,9 @@
     style: 'direct',
     assets: [], // {id, kind:'image', dataUrl}
     copy: null,
-    flags: []
+    flags: [],
+    brandColor: '#0ea5e9',
+    logo: null
   };
 
   // Wire step navigation
@@ -111,8 +113,35 @@
   const copyButton = el('#copyCaption');
   if(copyButton){
     copyButton.addEventListener('click', async ()=>{
+      if(!state.copy){ alert('Generate the caption first.'); return; }
       const caption = state.copy ? composeCaption(state.copy) : '';
       try { await navigator.clipboard.writeText(caption); copyButton.textContent = 'Copied!'; setTimeout(()=>copyButton.textContent='Copy Caption',1200);} catch(e){ alert('Copy failed'); }
+    });
+  }
+
+  // Export JSON gated by compliance acknowledgements
+  const exportBtn = el('#exportJson');
+  if(exportBtn){
+    exportBtn.addEventListener('click', ()=>{
+      const err = el('#err6');
+      const a = el('#ackNoPromises');
+      const b = el('#ackLicensed');
+      const c = el('#ackAccurate');
+      if(!state.copy){
+        if(err) err.textContent = 'Generate the caption first before exporting.';
+        return;
+      }
+      if(!(a?.checked && b?.checked && c?.checked)){
+        if(err) err.textContent = 'Please acknowledge all compliance checklist items before exporting.';
+        return;
+      }
+      if(err) err.textContent = '';
+      const record = buildRecord();
+      const blob = new Blob([JSON.stringify(record, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url; link.download = 'planneri_record.json'; link.click();
+      setTimeout(()=> URL.revokeObjectURL(url), 1000);
     });
   }
 
@@ -120,7 +149,32 @@
   const canvas = el('#canvas');
   const colorInput = el('#brandColor');
   const dlBtn = el('#downloadPng');
-  if(colorInput){ colorInput.addEventListener('input', renderCanvas); }
+  if(colorInput){ 
+    colorInput.value = state.brandColor || '#0ea5e9';
+    colorInput.addEventListener('input', ()=>{ state.brandColor = colorInput.value; saveState(); renderCanvas(); }); 
+  }
+  const logoInput = el('#logoUpload');
+  if(logoInput){
+    logoInput.addEventListener('change', async ()=>{
+      const f = (logoInput.files||[])[0];
+      if(!f) return;
+      const logo = await toDataUrl(f);
+      state.logo = { dataUrl: logo.dataUrl };
+      saveState();
+      renderCanvas();
+    });
+  }
+  const removeLogoBtn = el('#removeLogo');
+  if(removeLogoBtn){
+    removeLogoBtn.addEventListener('click', ()=>{
+      state.logo = null;
+      saveState();
+      // Clear file input for convenience
+      const inp = el('#logoUpload');
+      if(inp) inp.value = '';
+      renderCanvas();
+    });
+  }
   if(dlBtn){
     dlBtn.addEventListener('click', ()=>{
       if(!canvas) return;
@@ -235,6 +289,17 @@
       ctx.fillText(titleForPreview(), 16, h-24);
       // Accent
       ctx.fillStyle = color; ctx.fillRect(w-24, 0, 8, h);
+      // Logo
+      if(state.logo){
+        const logo = new Image();
+        logo.onload = ()=>{
+          const lw = logo.width, lh = logo.height;
+          const scale = Math.min(80/lw, 80/lh);
+          const lx = w - 16 - logo.width*scale, ly = 16;
+          ctx.drawImage(logo, lx, ly, lw*scale, lh*scale);
+        };
+        logo.src = state.logo.dataUrl;
+      }
     }
   }
 
@@ -259,5 +324,19 @@
     const f = parseInt(hex.slice(1),16);
     const R = f>>16, G=(f>>8)&0xFF, B=f&0xFF;
     return `rgba(${R}, ${G}, ${B}, ${a})`;
+  }
+
+  function buildRecord(){
+    return {
+      goal: state.goal,
+      audience: state.audience,
+      type: state.type,
+      style: state.style,
+      assets: state.assets.map(a=>a.dataUrl),
+      copy: state.copy,
+      flags: state.flags,
+      brandColor: state.brandColor,
+      logo: state.logo ? state.logo.dataUrl : null
+    };
   }
 })();

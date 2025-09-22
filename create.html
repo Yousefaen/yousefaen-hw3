@@ -122,9 +122,10 @@
               <canvas id="canvas" width="512" height="512" class="preview-canvas"></canvas>
               <div class="row gap">
                 <label class="muted">Brand color <input id="brandColor" type="color" value="#0ea5e9" /></label>
-                <label class="muted">Logo (PNG)
-                  <input id="logoUpload" type="file" accept="image/png" />
+                <label class="muted">Logo (image)
+                  <input id="logoUpload" type="file" accept="image/*" />
                 </label>
+                <button id="removeLogo" type="button">Remove Logo</button>
                 <button id="downloadPng">Download PNG</button>
               </div>
               <small class="muted">LinkedIn previews render at 1200×627. Instagram renders square.</small>
