@@ -7,8 +7,7 @@ Github repo: https://github.com/Yousefaen/yousefaen-hw3
 
 # yousefaen-hw3
 =======
-# Hello World on Netlify
-=======
+
 # Planneri — MVP (Mock-Only)
 
 
@@ -82,3 +81,4 @@ If you only need the static page (no functions), you can drag-and-drop this fold
 - Direct platform publishing and richer compliance rules
 
 >>>>>>> ec05663 (Readme edits)
+
