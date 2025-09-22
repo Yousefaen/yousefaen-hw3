@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Name: Youssef Abouelnour
 Github user: Yousefaen
 PRD Link: https://docs.google.com/document/d/1wucrZBUPdcKpbYVTcNRrSFNtEB69UyEuAIP5aRfrlz0/edit?usp=sharing
@@ -5,39 +6,59 @@ Netlify link: https://yousefaen-hw3.netlify.app/
 # yousefaen-hw3
 =======
 # Hello World on Netlify
+=======
+# Planneri — MVP (Mock-Only)
+Name: Youssef Abouelnour
+Github user: Yousefaen
+Netlify site: https://yousefaen-hw3.netlify.app/
+Github repo: https://github.com/Yousefaen/yousefaen-hw3
+>>>>>>> ec05663 (Readme edits)
 
-This is a minimal static site with a Netlify Function.
 
-- Static page: `index.html`
-- Function: `netlify/functions/hello.js`
-- Config: `netlify.toml`
+Planneri is an AI-assisted content helper for Dubai real estate teams. This MVP generates dummy, platform-tailored captions (and a voiceover script for Instagram Reels) to speed up social posting. No real AI calls are made in this version.
 
-## Prerequisites
-- Node.js 18+ installed
-- Netlify CLI (optional for local testing):
-  ```powershell
-  npm install -g netlify-cli
-  ```
+## What’s Included
+- Static site: `index.html` (landing) and `create.html` (wizard)
+- Functions (mock-only): `netlify/functions/`
+  - `generateCopy.js` — returns deterministic captions/hashtags and reel scripts
+- Styling/logic: `assets/`
 
-## Run locally (with Netlify CLI)
-1. Open PowerShell in this folder.
-2. Start the Netlify local dev server:
-   ```powershell
-   netlify dev
-   ```
-3. Open the printed local URL (usually http://localhost:8888).
-4. Use the creation wizard:
-   - Go to http://localhost:8888/create.html
-   - Walk through the steps (Goal → Audience → Type → Style → Assets → Preview)
-   - Click "Generate (Mock)" to call `/.netlify/functions/generateCopy` (dummy, deterministic output)
-   - Adjust brand color, optionally upload a logo (PNG), and download the PNG preview
-   - For LinkedIn posts, the preview renders at 1200×627; Instagram/reel renders square
+## How to Use (on your deployed site)
+1. Open your site’s URL and click “Open the Creation Wizard,” or go to `/create.html`.
+2. Follow the wizard steps:
+   - Step 1: Choose your business goal (Lead Gen, Brand Awareness, Community, Traffic).
+   - Step 2: Select the target audience (First-time buyers, International investors, Luxury, Upgraders, Family).
+   - Step 3: Pick a content type:
+     - Instagram Post (square)
+     - Instagram Reel (concept) — generates a voiceover script + shot list
+     - LinkedIn Post (1200×627)
+   - Step 4: Select a writing style (Direct, Persuasive, Personal, Warm, Authoritative).
+   - Step 5: Upload 1–5 images (kept in your browser only).
+   - Step 6: Preview and finalize.
+3. Click “Generate (Mock)” to produce dummy outputs tailored to your selections.
+4. Adjust branding:
+   - Pick a brand color.
+   - Optionally upload a logo image for overlay (Remove Logo to clear).
+5. Export and download:
+   - Check all three compliance checkboxes.
+   - Click “Export JSON” to download a creation record (selections, copy, flags, brand, assets).
+   - Click “Download PNG” to save the preview image (Instagram = 512×512, LinkedIn = 1200×627).
 
-If you don’t want to use the CLI, you can open `index.html` directly in a browser for the static page. The function call will only work via the Netlify dev server or when deployed.
+## Notes & Limitations
+- All outputs are mock/simulated. This MVP does not call external AI providers.
+- Uploaded assets remain in the browser and are not stored remotely.
+- Compliance flags are heuristic and for demonstration only.
 
-## Deploy to Netlify
-You have two easy options:
+## File Structure (reference)
+- `index.html` — Landing page with value proposition and CTA to the wizard
+- `create.html` — Multi-step content creation wizard
+- `assets/styles.css` — Shared styles
+- `assets/app.js` — Wizard logic, state, previews, export
+- `netlify/functions/generateCopy.js` — Mocked caption/script generator
+- `netlify/functions/hello.js` — Simple function used for early diagnostics (not used on landing)
+- `netlify.toml` — Netlify configuration
 
+<<<<<<< HEAD
 ### Option A: Drag-and-drop (static only)
 If you only need the static page (no functions), you can drag-and-drop this folder to Netlify. But to include functions, use Option B.
 
@@ -57,3 +78,9 @@ If you only need the static page (no functions), you can drag-and-drop this fold
 - You can also call the function with `/api/hello` thanks to the redirect in `netlify.toml`.
 
 >>>>>>> 1ceb0e0 (First commit using PRD as a reference)
+=======
+## Next Steps (beyond MVP)
+- Real provider integration behind a serverless function (with feature flag)
+- Arabic language support and additional brand style packs
+- Direct platform publishing and richer compliance rules
+>>>>>>> ec05663 (Readme edits)
