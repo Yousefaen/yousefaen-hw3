@@ -21,7 +21,6 @@
         <p class="muted">Planneri helps time‑constrained marketers and agents generate on‑brand Instagram posts, reels, and LinkedIn updates that comply with local guidelines — fast.</p>
         <div class="actions">
           <a class="brand" href="/create.html"><button class="primary">Open the Creation Wizard</button></a>
-          <button id="call-fn">Test Hello Function</button>
         </div>
       </section>
 
@@ -43,29 +42,6 @@
           <li><strong>LinkedIn Post:</strong> Professional headline and paragraph with concise hashtags.</li>
         </ul>
       </section>
-
-      <section style="margin-top:24px" class="card">
-        <h2>Diagnostics</h2>
-        <p class="muted">Quick serverless test to verify functions are working:</p>
-        <pre id="output">Click "Test Hello Function" to call /.netlify/functions/hello</pre>
-      </section>
     </main>
-
-    <script>
-      const btn = document.getElementById('call-fn');
-      const out = document.getElementById('output');
-      if (btn && out) {
-        btn.addEventListener('click', async () => {
-          out.textContent = 'Calling function...';
-          try {
-            const res = await fetch('/.netlify/functions/hello');
-            const data = await res.json();
-            out.textContent = JSON.stringify(data, null, 2);
-          } catch (err) {
-            out.textContent = 'Error calling function: ' + err.message;
-          }
-        });
-      }
-    </script>
   </body>
 </html>
