@@ -3,42 +3,69 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Hello World on Netlify</title>
-    <style>
-      :root { color-scheme: light dark; }
-      body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; margin: 0; display: grid; place-items: center; min-height: 100vh; }
-      .card { padding: 2rem; border: 1px solid #ccc; border-radius: 12px; max-width: 600px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
-      h1 { margin-top: 0; }
-      button { cursor: pointer; padding: 0.7rem 1rem; border-radius: 8px; border: 1px solid #888; background: #0ea5e9; color: #fff; font-weight: 600; }
-      button:hover { filter: brightness(1.05); }
-      pre { text-align: left; background: rgba(0,0,0,0.05); padding: 1rem; border-radius: 8px; overflow: auto; }
-      footer { margin-top: 1rem; color: #666; font-size: 0.9rem; }
-    </style>
+    <title>Planneri — AI-Assisted Real Estate Content</title>
+    <link rel="stylesheet" href="/assets/styles.css" />
   </head>
   <body>
-    <main class="card">
-      <h1>Hello, Netlify! 👋</h1>
-      <p>This is a simple Hello World app you can deploy to Netlify.</p>
-      <p><a href="/create.html">Open the Content Creation Wizard</a></p>
-      <p>
-        <button id="call-fn">Call Netlify Function</button>
-      </p>
-      <pre id="output">Click the button to call /.netlify/functions/hello</pre>
-      <footer>Deployed on Netlify • Static site + serverless function</footer>
+    <header class="topbar">
+      <a href="/" class="brand">Planneri</a>
+      <nav>
+        <a href="/create.html">Create</a>
+        <a href="https://github.com/Yousefaen/yousefaen-hw3" target="_blank" rel="noopener">GitHub</a>
+      </nav>
+    </header>
+
+    <main class="container">
+      <section class="hero card" style="padding:24px;border:1px solid var(--border);border-radius:12px;background:var(--card)">
+        <h1>AI-assisted social content for Dubai real estate</h1>
+        <p class="muted">Planneri helps time‑constrained marketers and agents generate on‑brand Instagram posts, reels, and LinkedIn updates that comply with local guidelines — fast.</p>
+        <div class="actions">
+          <a class="brand" href="/create.html"><button class="primary">Open the Creation Wizard</button></a>
+          <button id="call-fn">Test Hello Function</button>
+        </div>
+      </section>
+
+      <section style="margin-top:24px" class="card">
+        <h2>Why Planneri</h2>
+        <ul>
+          <li><strong>Lead Generation:</strong> Goal‑based copy and CTAs to convert viewers to inquiries.</li>
+          <li><strong>Brand & Prestige:</strong> Consistent tone and simple branding overlays (logo + color).</li>
+          <li><strong>Time Savings:</strong> Wizard streamlines captions, hashtags, and reel voiceover scripts.</li>
+          <li><strong>Compliance‑aware:</strong> Heuristic flags for risky claims (mocked in this MVP).</li>
+        </ul>
+      </section>
+
+      <section style="margin-top:24px" class="card">
+        <h2>What you can create</h2>
+        <ul>
+          <li><strong>Instagram Post:</strong> Square preview with caption, hashtags, and PNG export.</li>
+          <li><strong>Instagram Reel (concept):</strong> Caption plus a generated voiceover script and shot list.</li>
+          <li><strong>LinkedIn Post:</strong> Professional headline and paragraph with concise hashtags.</li>
+        </ul>
+      </section>
+
+      <section style="margin-top:24px" class="card">
+        <h2>Diagnostics</h2>
+        <p class="muted">Quick serverless test to verify functions are working:</p>
+        <pre id="output">Click "Test Hello Function" to call /.netlify/functions/hello</pre>
+      </section>
     </main>
+
     <script>
       const btn = document.getElementById('call-fn');
       const out = document.getElementById('output');
-      btn.addEventListener('click', async () => {
-        out.textContent = 'Calling function...';
-        try {
-          const res = await fetch('/.netlify/functions/hello');
-          const data = await res.json();
-          out.textContent = JSON.stringify(data, null, 2);
-        } catch (err) {
-          out.textContent = 'Error calling function: ' + err.message;
-        }
-      });
+      if (btn && out) {
+        btn.addEventListener('click', async () => {
+          out.textContent = 'Calling function...';
+          try {
+            const res = await fetch('/.netlify/functions/hello');
+            const data = await res.json();
+            out.textContent = JSON.stringify(data, null, 2);
+          } catch (err) {
+            out.textContent = 'Error calling function: ' + err.message;
+          }
+        });
+      }
     </script>
   </body>
 </html>
